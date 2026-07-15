@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Online Subscription Portal{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <p class="section-label">Smart Subscription Platform</p>
+        <h1>Manage subscriptions with a clean and modern portal</h1>
+        <p>
+            Create an account, browse available offerings, subscribe instantly, and track everything
+            from your personal dashboard.
+        </p>
+        <div class="hero-actions">
+            <a href="{{ url_for('register') }}" class="btn btn-primary">Create Account</a>
+            <a href="{{ url_for('offerings') }}" class="btn btn-outline">Browse Offerings</a>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <article class="feature-card">
+        <h2>Simple Authentication</h2>
+        <p>Register and log in securely with session-based access to protected pages.</p>
+    </article>
+    <article class="feature-card">
+        <h2>Instant Subscription</h2>
+        <p>Subscribe to offerings without page reload using AJAX for a smoother experience.</p>
+    </article>
+    <article class="feature-card">
+        <h2>Personal Dashboard</h2>
+        <p>See your current subscriptions in one place with a clean overview.</p>
+    </article>
+</section>
+{% endblock %}

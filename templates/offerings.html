@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Offerings - Online Subscription Portal{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="page-hero-content">
+        <p class="section-label">Available Offerings</p>
+        <h1>Browse Courses, Services, and Programs</h1>
+        <p class="page-text">
+            Explore all available offerings and subscribe instantly. Your selected subscriptions
+            will appear in your personal dashboard.
+        </p>
+    </div>
+</section>
+
+<section class="offerings-section">
+    <div class="section-header">
+        <h2>All Offerings</h2>
+        <p>Choose one or more offerings that fit your goals.</p>
+    </div>
+
+    <div id="subscription-message" class="subscription-message"></div>
+
+    <div class="offerings-grid">
+        {% for offering in offerings %}
+            <article class="offering-card">
+                <div class="offering-image-container">
+                    {% if offering.image %}
+                        <img src="{{ offering.image }}" alt="{{ offering.title }}" 
+                             onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/default-course.svg') }}';">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='images/default-course.svg') }}" alt="{{ offering.title }}">
+                    {% endif %}
+                </div>
+                <div class="offering-card-top">
+                    <span class="offering-badge badge-{{ offering.availability or 'available' }}">
+                        {{ (offering.availability or 'available') | replace('_', ' ') | title }}
+                    </span>
+                </div>
+
+                <h3>{{ offering.title }}</h3>
+                <p>{{ offering.description }}</p>
+
+                <div class="offering-card-footer">
+                    {% if session.get('user_id') %}
+                        {% if offering.id in subscribed_ids %}
+                            <button class="btn btn-disabled" disabled>Already Subscribed</button>
+                        {% else %}
+                            <button class="btn btn-primary subscribe-btn" data-offering-id="{{ offering.id }}">
+                                Subscribe
+                            </button>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="btn btn-outline">Login to Subscribe</a>
+                    {% endif %}
+                </div>
+            </article>
+        {% else %}
+            <div class="empty-state">
+                <h3>No offerings available right now</h3>
+                <p>There are currently no active offerings in the system. Please check back later.</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/offerings.js') }}"></script>
+{% endblock %}

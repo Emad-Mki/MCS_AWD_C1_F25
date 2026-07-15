@@ -1,0 +1,45 @@
+nohup: ignoring input
+ * Serving Flask app 'app'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 130-767-526
+/workspace/app.py:246: DeprecationWarning: 'db' is deprecated, use 'database'
+  conn = get_connection()
+/workspace/app.py:246: DeprecationWarning: 'passwd' is deprecated, use 'password'
+  conn = get_connection()
+127.0.0.1 - - [14/Jul/2026 10:07:37] "GET /offerings HTTP/1.1" 200 -
+127.0.0.1 - - [14/Jul/2026 10:07:40] "GET /admin HTTP/1.1" 302 -
+/workspace/app.py:90: DeprecationWarning: 'db' is deprecated, use 'database'
+  conn = get_connection()
+/workspace/app.py:90: DeprecationWarning: 'passwd' is deprecated, use 'password'
+  conn = get_connection()
+127.0.0.1 - - [14/Jul/2026 10:07:43] "POST /login HTTP/1.1" 302 -
+127.0.0.1 - - [14/Jul/2026 10:07:43] "POST /admin HTTP/1.1" 405 -
+127.0.0.1 - - [14/Jul/2026 10:07:47] "POST /login HTTP/1.1" 302 -
+127.0.0.1 - - [14/Jul/2026 10:07:47] "POST /admin HTTP/1.1" 405 -
+127.0.0.1 - - [14/Jul/2026 10:07:50] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [14/Jul/2026 10:07:54] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [14/Jul/2026 10:14:23] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Jul/2026 10:14:34] "GET /offerings HTTP/1.1" 200 -
+127.0.0.1 - - [14/Jul/2026 10:14:41] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [14/Jul/2026 10:14:44] "POST /login HTTP/1.1" 200 -
+127.0.0.1 - - [14/Jul/2026 10:15:03] "POST /login HTTP/1.1" 302 -
+127.0.0.1 - - [14/Jul/2026 10:15:03] "POST /admin HTTP/1.1" 405 -
+127.0.0.1 - - [14/Jul/2026 10:15:06] "POST /login HTTP/1.1" 302 -
+127.0.0.1 - - [14/Jul/2026 10:15:06] "POST /admin HTTP/1.1" 405 -
+127.0.0.1 - - [14/Jul/2026 10:15:09] "GET /login HTTP/1.1" 200 -
+/workspace/app.py:143: DeprecationWarning: 'db' is deprecated, use 'database'
+  conn = get_connection()
+/workspace/app.py:143: DeprecationWarning: 'passwd' is deprecated, use 'password'
+  conn = get_connection()
+127.0.0.1 - - [14/Jul/2026 10:15:11] "GET /admin HTTP/1.1" 200 -
+127.0.0.1 - - [14/Jul/2026 10:15:14] "GET /offerings HTTP/1.1" 200 -
+/workspace/app.py:117: DeprecationWarning: 'db' is deprecated, use 'database'
+  conn = get_connection()
+/workspace/app.py:117: DeprecationWarning: 'passwd' is deprecated, use 'password'
+  conn = get_connection()
+127.0.0.1 - - [14/Jul/2026 10:15:17] "GET /dashboard HTTP/1.1" 200 -

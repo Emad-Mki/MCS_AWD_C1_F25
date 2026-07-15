@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Online Subscription Portal{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="page-hero-content">
+        <p class="section-label">Admin Panel</p>
+        <h1>Manage Offerings</h1>
+        <p class="page-text">
+            Add, edit, or remove courses and offerings from the platform.
+        </p>
+    </div>
+</section>
+
+<section class="admin-section">
+    <div class="section-header">
+        <h2>Add New Offering</h2>
+    </div>
+
+    <form class="admin-form" action="{{ url_for('admin_add_offering') }}" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title">Course Title *</label>
+            <input type="text" id="title" name="title" required placeholder="Enter course title">
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description *</label>
+            <textarea id="description" name="description" required rows="4" placeholder="Enter course description"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="availability">Availability</label>
+            <select id="availability" name="availability">
+                <option value="available">Available</option>
+                <option value="coming_soon">Coming Soon</option>
+                <option value="ended">Ended</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="image_url">Image URL (Optional)</label>
+            <input type="url" id="image_url" name="image_url" placeholder="Or paste an image URL">
+            <small>Leave empty to automatically generate an image based on the course title</small>
+        </div>
+
+        <div class="form-group">
+            <label for="image_file">Upload Image from Device (Optional)</label>
+            <input type="file" id="image_file" name="image_file" accept="image/*">
+            <small>Upload an image file (PNG, JPG, JPEG, GIF, WEBP). Max size: 16MB</small>
+        </div>
+
+        <div class="form-group checkbox-group">
+            <label>
+                <input type="checkbox" name="is_active" checked>
+                Active (Show on website)
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Offering</button>
+    </form>
+</section>
+
+<section class="admin-section">
+    <div class="section-header">
+        <h2>All Offerings</h2>
+        <p>Manage existing offerings below.</p>
+    </div>
+
+    <div id="admin-message" class="subscription-message"></div>
+
+    <div class="offerings-table-container">
+        <table class="offerings-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Availability</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for offering in offerings %}
+                <tr>
+                    <td>{{ offering.id }}</td>
+                    <td>{{ offering.title }}</td>
+                    <td>{{ offering.description[:50] }}{% if offering.description|length > 50 %}...{% endif %}</td>
+                    <td>
+                        <span class="badge badge-{{ offering.availability }}">
+                            {{ offering.availability | replace('_', ' ') | title }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if offering.is_active %}
+                            <span class="badge badge-active">Active</span>
+                        {% else %}
+                            <span class="badge badge-inactive">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-edit" onclick="toggleEditForm({{ offering.id }})">Edit</button>
+                        <form action="{{ url_for('admin_delete_offering', offering_id=offering.id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this offering?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr id="edit-form-{{ offering.id }}" class="edit-form-row" style="display: none;">
+                    <td colspan="6">
+                        <form class="admin-edit-form" action="{{ url_for('admin_update_offering', offering_id=offering.id) }}" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="edit-title-{{ offering.id }}">Course Title *</label>
+                                <input type="text" id="edit-title-{{ offering.id }}" name="title" value="{{ offering.title }}" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-description-{{ offering.id }}">Description *</label>
+                                <textarea id="edit-description-{{ offering.id }}" name="description" required rows="3">{{ offering.description }}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-availability-{{ offering.id }}">Availability</label>
+                                <select id="edit-availability-{{ offering.id }}" name="availability">
+                                    <option value="available" {% if offering.availability == 'available' %}selected{% endif %}>Available</option>
+                                    <option value="coming_soon" {% if offering.availability == 'coming_soon' %}selected{% endif %}>Coming Soon</option>
+                                    <option value="ended" {% if offering.availability == 'ended' %}selected{% endif %}>Ended</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-image_url-{{ offering.id }}">Image URL (Optional)</label>
+                                <input type="url" id="edit-image_url-{{ offering.id }}" name="image_url" value="{{ offering.image_url or '' }}" placeholder="Or paste an image URL">
+                                <small>Leave empty to automatically generate an image based on the course title</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-image_file-{{ offering.id }}">Upload New Image (Optional)</label>
+                                <input type="file" id="edit-image_file-{{ offering.id }}" name="image_file" accept="image/*">
+                                <small>Upload a new image to replace the current one. Max size: 16MB</small>
+                                {% if offering.image_url %}
+                                    <div class="current-image-preview" style="margin-top: 10px;">
+                                        <img src="{{ offering.image_url }}" alt="Current image" style="max-width: 200px; max-height: 150px; object-fit: cover; border-radius: 4px;">
+                                        <p style="font-size: 12px; color: #666; margin-top: 5px;">Current image</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group checkbox-group">
+                                <label>
+                                    <input type="checkbox" name="is_active" {% if offering.is_active %}checked{% endif %}>
+                                    Active (Show on website)
+                                </label>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Update Offering</button>
+                                <button type="button" class="btn btn-secondary" onclick="toggleEditForm({{ offering.id }})">Cancel</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="empty-state">No offerings found. Add your first offering above!</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function toggleEditForm(offeringId) {
+    const formRow = document.getElementById(`edit-form-${offeringId}`);
+    if (formRow.style.display === 'none') {
+        formRow.style.display = 'table-row';
+    } else {
+        formRow.style.display = 'none';
+    }
+}
+
+// Show flash messages
+document.addEventListener("DOMContentLoaded", function () {
+    const messageBox = document.getElementById("admin-message");
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                if (messageBox) {
+                    messageBox.textContent = "{{ message }}";
+                    messageBox.className = `subscription-message ${category}`;
+                    messageBox.style.display = "block";
+                    setTimeout(() => {
+                        messageBox.style.display = "none";
+                    }, 3000);
+                }
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+});
+</script>
+{% endblock %}
