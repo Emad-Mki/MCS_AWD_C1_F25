@@ -21,10 +21,10 @@ README.md containing:
 ## 🔗 روابط المشروع
 
 - 🌐 **رابط الموقع المباشر (PythonAnywhere):**  
-  [https://princemad.pythonanywhere.com/](https://princemad.pythonanywhere.com/) [web:4]
+  [https://princemad.pythonanywhere.com/](https://princemad.pythonanywhere.com/) 
 
 - 💾 **المستودع على GitHub:**  
-  [https://github.com/Emad-Mki/MCS_AWD_C1_F25/tree/main](https://github.com/Emad-Mki/MCS_AWD_C1_F25/tree/main) [web:2]
+  [https://github.com/Emad-Mki/MCS_AWD_C1_F25/tree/main](https://github.com/Emad-Mki/MCS_AWD_C1_F25/tree/main) 
 
 ---
 
