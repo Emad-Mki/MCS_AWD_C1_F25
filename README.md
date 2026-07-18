@@ -1,6 +1,4 @@
-README.md containing:
-- How to run the project
-- Test user login details
+
 
 # 🎓 بوابة الاشتراكات الإلكترونية — Online Subscription Portal
 
